@@ -9,6 +9,8 @@ public class HomePage {
     private By formAuthenLink = By.linkText("Form Authentication");
     private By dropDownLink = By.cssSelector("a[href='/dropdown']");
 
+    private By hoverLink = By.cssSelector("a[href='/hovers']");
+    private By keyPressLink = By.cssSelector("a[href='/key_presses']");
 
     //Konstruktor
     public  HomePage(WebDriver driver){
@@ -30,4 +32,18 @@ public class HomePage {
 
         return new DropdownPage(driver);
     }
+
+    public HoverPage clicHoverPage(){
+
+        driver.findElement(hoverLink).click();
+        System.out.println("Element was found and clicked");
+
+        return new HoverPage(driver);
+    }
+
+    public KeyPressPage clickKeyPress() {
+        driver.findElement(keyPressLink).click();
+        return new KeyPressPage(driver);
+    }
+
 }

@@ -6,27 +6,38 @@ import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 
 import java.util.List;
 
 public class BaseTest {
 
     private WebDriver driver;
+    int a; //nahlasili null
+
     protected HomePage homePage;
 
     public void setUpBefore(){
         System.setProperty("webdriver.chrome.driver", "rsources/chromedriver");
         driver = new ChromeDriver();
         driver.get("https://the-internet.herokuapp.com/"); //launch the browser
+
     }
     @BeforeClass
+
     public void setUp(){
         System.setProperty("webdriver.chrome.driver", "rsources/chromedriver");
         driver = new ChromeDriver();
         driver.get("https://the-internet.herokuapp.com/"); //launch the browser
-        homePage = new HomePage(driver);
+//        driver.get("https://www.kayak.co.uk/?ispredir=true");
+       homePage = new HomePage(driver);
+//        WebElement fromField = driver.findElement(By.xpath("//input[@placeholder='From?']"));
+//        Actions actions = new Actions(driver);
+//        actions.moveToElement(fromField).doubleClick();
+
 //        driver.manage().window().maximize(); //do something with browser
 //        //driver.manage().window().setSize(new Dimension(375, 812));
 //       // WebElement inp = driver.findElement(By.linkText("Add/Remove Elements");
