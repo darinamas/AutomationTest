@@ -2,6 +2,8 @@ package Pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class LoginPage {
 
@@ -30,4 +32,6 @@ public class LoginPage {
         driver.findElement(loginButton).click();
         return new SecureAreaPage(driver);
     }
+
+
 }

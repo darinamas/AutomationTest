@@ -2,6 +2,8 @@ package Pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class SecureAreaPage {
 
@@ -15,5 +17,12 @@ public class SecureAreaPage {
        return driver.findElement(statusAlert).getText();
     }
 
+    public boolean waitUntilDisplayed() {
+        WebDriverWait wait = new WebDriverWait(driver, 10);
+        boolean isDisplayed = wait.until(
+                ExpectedConditions.presenceOfElementLocated(statusAlert)).isDisplayed();
+        System.out.println(isDisplayed);
+        return isDisplayed;
+    }
 
 }

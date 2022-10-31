@@ -1,72 +1,70 @@
 package base;
 
 import Pages.HomePage;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Dimension;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import com.google.common.io.Files;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
+import org.testng.ITestResult;
 import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+import org.testng.log4testng.Logger;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
+
+import static java.lang.System.getLogger;
+import static java.lang.invoke.MethodHandles.lookup;
 
 public class BaseTest {
 
     private WebDriver driver;
-    int a; //nahlasili null
+    // static final Logger log = (Logger) getLogger(String.valueOf(lookup().lookupClass()));
 
     protected HomePage homePage;
 
-    public void setUpBefore(){
+    public void setUpBefore() {
         System.setProperty("webdriver.chrome.driver", "rsources/chromedriver");
         driver = new ChromeDriver();
-        driver.get("https://the-internet.herokuapp.com/"); //launch the browser
+        String setUrl = "https://the-internet.herokuapp.com/";
+        driver.get(setUrl); //launch the browser
 
     }
+
     @BeforeClass
 
-    public void setUp(){
+    public void setUp() {
         System.setProperty("webdriver.chrome.driver", "rsources/chromedriver");
         driver = new ChromeDriver();
-        driver.get("https://the-internet.herokuapp.com/"); //launch the browser
-//        driver.get("https://www.kayak.co.uk/?ispredir=true");
-       homePage = new HomePage(driver);
-//        WebElement fromField = driver.findElement(By.xpath("//input[@placeholder='From?']"));
-//        Actions actions = new Actions(driver);
-//        actions.moveToElement(fromField).doubleClick();
-
-//        driver.manage().window().maximize(); //do something with browser
-//        //driver.manage().window().setSize(new Dimension(375, 812));
-//       // WebElement inp = driver.findElement(By.linkText("Add/Remove Elements");
-//        WebElement inputsLink = driver.findElement(By.linkText("Inputs")); //return web element
-//        inputsLink.click();
-//
-//        List<WebElement> links = driver.findElements(By.tagName("a")); //return list of web elements
-//        System.out.println(links.size()); // print how many elements on this page
-//
-//        System.out.println(driver.getTitle()); //get title
-//        //driver.quit(); //close browser
-
+        String setUrl = "https://the-internet.herokuapp.com/";
+        driver.get(setUrl); //launch the browser
+        String title = driver.getTitle();
+        // log.debug("The title of {} is {}");
+        homePage = new HomePage(driver);
     }
 
     @AfterClass
-    public void quitMethod(){
-      //  driver.quit();
-    }
-    public void test1() {
-        setUpBefore();
-        //WebElement inputs = driver.findElement(By.linkText("Add/Remove Elements"));
-        WebElement inputs = driver.findElement(By.xpath(""));
-        inputs.click();
-        //driver.quit();
+    public void quitMethod() {
+        driver.quit();
     }
 
-//    public static void main(String arg[]) {
-//        BaseTest test = new BaseTest();
-//        test.setUp();
-//      //  test.test1();
-//    }
-}
+        @AfterMethod
+        public void takeScreenShotFailure (ITestResult reult){
+            if (ITestResult.FAILURE == reult.getStatus()) {
+                var camera = (TakesScreenshot) driver;
+                File screenshot = camera.getScreenshotAs(OutputType.FILE);
+                System.out.println("Screenshot is taken" + screenshot.getAbsolutePath());
+                try {
+                    Files.move(screenshot,
+                            new File("rsources/screenshots/" + reult.getName() + ".png"));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }
+    }
